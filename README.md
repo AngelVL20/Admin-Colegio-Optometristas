@@ -59,12 +59,11 @@ Angular CLI does not come with an end-to-end testing framework by default. You c
 
 Este proyecto (sección admin) fue desarrollado por **AMVL**, incluyendo el diseño visual, estructura de componentes en Angular y toda la lógica funcional.
 
-Durante las pruebas, se utilizaron **datos simulados de ejemplo** para representar el comportamiento esperado, ya que la conexión con bases de datos reales o sitios web externos **no formaba parte de mi responsabilidad**.
+Durante las pruebas, se utilizaron **datos simulados de ejemplo** para representar el comportamiento esperado, ya que la conexión con bases de datos reales o sitios web externos **fue delegado a un miembro diferente**.
 
-> Todas las funcionalidades fueron validadas con éxito en entorno local.  
-> No me responsabilizo por posibles errores derivados de la integración o despliegue en entornos externos.
-
-Este documento deja constancia del desarrollo completo realizado y probado localmente según los requerimientos que se me solicitaron.
+> Todas las funcionalidades fueron validadas con éxito en entorno local como se fue solicitado.  
+> En caso de fallos derivados de la integracion o despliegue en un entorno externo (como puede ser la obtencion de datos). Consultarlo con la persona correspondiente.
+Este proyecto deja constancia del desarrollo completo realizado y probado localmente según los requerimientos que se solicitaron.
 
 
 ## Additional Resources
