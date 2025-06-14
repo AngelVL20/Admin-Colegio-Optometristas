@@ -1,0 +1,75 @@
+<div class="admin-header">
+  <h2>Mensajes Recibidos</h2>
+</div>
+
+<table class="table table-bordered table-hover text-center align-middle mt-3">
+  <thead class="table-light">
+    <tr>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Mensaje</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let mensaje of mensajes; let i = index">
+      <td>{{ mensaje.nombre }}</td>
+      <td>{{ mensaje.correo }}</td>
+      <td>{{ mensaje.mensaje | slice:0:50 }}...</td>
+      <td>
+        <button class="btn btn-outline-info btn-sm me-1" title="Ver" (click)="verMensaje(mensaje)">
+          <i class="bi bi-eye"></i>
+        </button>
+        <button class="btn btn-outline-primary btn-sm me-1" title="Responder" (click)="responderMensaje(mensaje)">
+          <i class="bi bi-envelope"></i>
+        </button>
+        <button class="btn btn-outline-danger btn-sm" title="Eliminar" (click)="eliminarMensaje(i)">
+          <i class="bi bi-trash"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Modal para ver o responder -->
+<div class="modal-backdrop" *ngIf="mostrarModal">
+  <div class="modal-content-box">
+    <ng-container *ngIf="modo === 'ver'">
+      <h5>Mensaje de {{ mensajeActivo?.nombre }}</h5>
+      <p><strong>Correo:</strong> {{ mensajeActivo?.correo }}</p>
+      <p><strong>Mensaje:</strong></p>
+      <p>{{ mensajeActivo?.mensaje }}</p>
+      <div class="d-flex justify-content-end mt-3">
+        <button class="btn btn-secondary" (click)="cerrarModal()">Cerrar</button>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="modo === 'responder'">
+      <h5>Responder a {{ mensajeActivo?.nombre }}</h5>
+      <div class="mb-3">
+        <label for="asunto" class="form-label">Asunto</label>
+        <input
+          id="asunto"
+          type="text"
+          class="form-control"
+          [(ngModel)]="formularioCorreo.asunto"
+          name="asunto"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="mensaje" class="form-label">Mensaje</label>
+        <textarea
+          id="mensaje"
+          class="form-control"
+          rows="5"
+          [(ngModel)]="formularioCorreo.mensaje"
+          name="mensaje"
+        ></textarea>
+      </div>
+      <div class="d-flex justify-content-end gap-2">
+        <button class="btn btn-secondary" (click)="cerrarModal()">Cancelar</button>
+        <button class="btn btn-success" (click)="enviarRespuesta()">Enviar</button>
+      </div>
+    </ng-container>
+  </div>
+</div>

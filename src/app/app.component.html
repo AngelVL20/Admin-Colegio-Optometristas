@@ -1,0 +1,28 @@
+<ng-container *ngIf="activeSection !== 'login'">
+  <app-sidebar (seccionCambiada)="cambiarSeccion($event)"></app-sidebar>
+</ng-container>
+
+<!--Login -->
+<div *ngIf="activeSection === 'login'">
+  <app-login (loginExitoso)="onLoginSuccess()"></app-login>
+</div>
+
+<!-- Dashboard -->
+<div *ngIf="activeSection === 'dashboard'">
+  <app-dashboard></app-dashboard>
+</div>
+<!-- Publicaciones -->
+<div *ngIf="activeSection === 'publicaciones'">
+  <app-publicaciones></app-publicaciones>
+</div>
+<!-- Comité -->
+<div *ngIf="activeSection === 'comite'">
+  <app-comite></app-comite>
+</div>
+<!-- Contacto-->
+<div *ngIf="activeSection === 'contacto'">
+  <app-contacto></app-contacto>
+</div>
+
+
+

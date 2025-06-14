@@ -1,0 +1,137 @@
+<div class="admin-header">
+  <h2>Miembros del Comité</h2>
+</div>
+
+<!-- Buscador y ordenamiento -->
+<div class="d-flex flex-wrap gap-3 align-items-center mb-3">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar miembro..."
+    [(ngModel)]="busqueda"
+  />
+
+  <select class="form-select w-auto" [(ngModel)]="orden">
+    <option value="asc">Nombre A-Z</option>
+    <option value="desc">Nombre Z-A</option>
+  </select>
+</div>
+
+<!-- Formulario -->
+<form
+  *ngIf="mostrarFormulario"
+  class="d-flex flex-wrap gap-2 mb-4"
+  (ngSubmit)="agregarOModificarMiembro()"
+>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Nombre"
+    [(ngModel)]="nuevoMiembro.nombre"
+    name="nombre"
+    required
+  />
+  <input
+    type="email"
+    class="form-control"
+    placeholder="Correo"
+    [(ngModel)]="nuevoMiembro.correo"
+    name="correo"
+    required
+  />
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Rol"
+    [(ngModel)]="nuevoMiembro.rol"
+    name="rol"
+    required
+  />
+
+  <button type="submit" class="btn btn-primary">
+    {{ editandoIndice === null ? "Agregar" : "Actualizar" }}
+  </button>
+</form>
+
+<!-- Tabla -->
+<table class="table table-bordered table-hover text-center align-middle">
+  <thead class="table-light">
+    <tr>
+      <th>Nombre</th>
+      <th>Correo</th>
+      <th>Rol</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let miembro of comiteFiltrado; let i = index">
+      <td>{{ miembro.nombre }}</td>
+      <td>{{ miembro.correo }}</td>
+      <td>{{ miembro.rol }}</td>
+      <td>
+        <button
+          class="btn btn-outline-warning btn-sm me-1"
+          (click)="editarMiembro(i)"
+          title="Editar"
+        >
+          <i class="bi bi-pencil"></i>
+        </button>
+        <button
+          class="btn btn-outline-danger btn-sm me-1"
+          (click)="eliminarMiembro(i)"
+          title="Eliminar"
+        >
+          <i class="bi bi-trash"></i>
+        </button>
+        <button
+          class="btn btn-outline-info btn-sm me-1"
+          title="Enviar correo"
+          (click)="abrirFormularioCorreo(miembro)"
+        >
+          <i class="bi bi-envelope"></i>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- Botón Añadir -->
+<div class="text-end">
+  <button class="btn btn-success" (click)="toggleFormulario()">
+    + Añadir Miembro
+  </button>
+</div>
+<!-- Formulario de Envío de Correo -->
+<div class="modal-backdrop" *ngIf="mostrarFormularioCorreo">
+  <div class="modal-content-box">
+    <h5>Enviar mensaje a {{ correoActivo?.nombre }}</h5>
+
+    <div class="mb-3">
+      <label for="asuntoCorreo" class="form-label">Asunto</label>
+      <input
+        id="asuntoCorreo"
+        type="text"
+        class="form-control"
+        [(ngModel)]="formularioCorreo.asunto"
+        name="asuntoCorreo"
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="mensajeCorreo" class="form-label">Mensaje</label>
+      <textarea
+        id="mensajeCorreo"
+        class="form-control"
+        rows="5"
+        [(ngModel)]="formularioCorreo.mensaje"
+        name="mensajeCorreo"
+      ></textarea>
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+      <button class="btn btn-secondary" (click)="cerrarFormularioCorreo()">Cancelar</button>
+      <button class="btn btn-success" (click)="enviarCorreo()">Enviar</button>
+    </div>
+  </div>
+</div>
+

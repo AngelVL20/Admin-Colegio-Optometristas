@@ -1,0 +1,128 @@
+@import url('../../../styles.css'); /* Asegura que estilos globales estén presentes */
+
+.admin-header {
+  background-color: #ffffff;
+  padding: 15px 25px;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  border-left: 4px solid #0b4d94;
+}
+
+.admin-header h2 {
+  margin: 0;
+  font-size: 30px;
+  color: #0b4d94;
+}
+
+.cards {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  gap: 20px;
+  flex-wrap: nowrap;
+}
+
+.card {
+  background: white;
+  flex: 1 1 22%;
+  padding: 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  min-width: 200px;
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card span {
+  font-size: 24px;
+  font-weight: bold;
+  display: block;
+  margin-top: 10px;
+}
+
+.activity-section {
+  background: white;
+  padding: 20px;
+  margin-bottom: 30px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.bar-chart {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 180px;
+  margin: 30px 0 10px;
+  gap: 10px;
+}
+
+.bar {
+  width: 12%;
+  height: var(--valor);
+  background-color: #0b4d94;
+  border-radius: 4px 4px 0 0;
+  position: relative;
+  transition: background-color 0.3s;
+}
+
+.bar:hover {
+  background-color: #093d7a;
+  cursor: pointer;
+}
+
+.bar::after {
+  content: attr(data-dia);
+  position: absolute;
+  bottom: -22px;
+  font-size: 12px;
+  color: #333;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.bottom-section {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.site-activity,
+.recent-forms {
+  background: white;
+  padding: 20px;
+  flex: 1;
+  min-width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.site-activity h4,
+.recent-forms h4 {
+  margin-top: 0;
+}
+
+.site-activity ul,
+.recent-forms ul {
+  list-style: none;
+  padding: 0;
+}
+
+.site-activity ul li,
+.recent-forms ul li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.site-activity ul li:last-child,
+.recent-forms ul li:last-child {
+  border-bottom: none;
+}

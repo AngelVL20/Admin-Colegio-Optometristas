@@ -1,0 +1,44 @@
+<div class="sidebar">
+  <h2>ADMIN</h2>
+  <nav>
+    <ul>
+      <li>
+        <a
+          href="#"
+          (click)="seleccionar('dashboard')"
+          [class.activo]="seccionActiva === 'dashboard'"
+          >Dashboard</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          (click)="seleccionar('publicaciones')"
+          [class.activo]="seccionActiva === 'publicaciones'"
+          >Publicaciones</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          (click)="seleccionar('comite')"
+          [class.activo]="seccionActiva === 'comite'"
+          >Comité</a
+        >
+      </li>
+      <li>
+        <a
+          href="#"
+          (click)="seleccionar('contacto')"
+          [class.activo]="seccionActiva === 'contacto'"
+          >Contacto</a
+        >
+      </li>
+      <li>
+        <a href="#" (click)="seleccionar('logout')">
+          <i class="bi bi-box-arrow-right me-2"></i> Cerrar sesión
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

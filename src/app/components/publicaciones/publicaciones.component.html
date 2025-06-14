@@ -1,0 +1,219 @@
+<div class="admin-header">
+  <h2>Publicaciones</h2>
+</div>
+
+<!-- Buscador y filtros -->
+<div class="search-bar mb-3 d-flex gap-2">
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Buscar Publicaciones..."
+    [(ngModel)]="busqueda"
+  />
+</div>
+
+<div class="d-flex flex-wrap align-items-center gap-3 mb-3">
+  <label for="ordenarPor" class="form-label mb-0">Ordenar por:</label>
+  <select
+    id="ordenarPor"
+    class="form-select w-auto"
+    [(ngModel)]="criterioOrden"
+    (change)="ordenarPublicaciones()"
+  >
+    <option value="titulo">Título (A-Z)</option>
+    <option value="autor">Autor (A-Z)</option>
+    <option value="fechaCreacion">Fecha de Creación</option>
+    <option value="fechaModificacion">Fecha de Modificación</option>
+  </select>
+</div>
+
+<!-- Botón nuevo -->
+<button class="btn btn-success mb-3" (click)="toggleFormulario()">
+  {{ mostrarFormulario ? "Cancelar" : "+ Nueva Publicación" }}
+</button>
+
+<div *ngIf="mensajeConfirmacion" class="alert alert-success">
+  {{ mensajeConfirmacion }}
+</div>
+
+
+<!-- Formulario -->
+<form
+  *ngIf="mostrarFormulario"
+  class="formulario-publicacion d-flex flex-wrap gap-2 mb-4"
+  (ngSubmit)="agregarOEditarPublicacion()"
+>
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Título"
+    [(ngModel)]="nuevaPublicacion.titulo"
+    name="titulo"
+    required
+  />
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Autor"
+    [(ngModel)]="nuevaPublicacion.autor"
+    name="autor"
+    required
+  />
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Categoría"
+    [(ngModel)]="nuevaPublicacion.categoria"
+    name="categoria"
+    required
+  />
+  <input
+    type="text"
+    class="form-control"
+    placeholder="Tags (separados por coma)"
+    [(ngModel)]="nuevaPublicacion.tags"
+    name="tags"
+    required
+  />
+
+  <select
+    class="form-select"
+    [(ngModel)]="nuevaPublicacion.plantilla"
+    name="plantilla"
+    required
+  >
+    <option value="" disabled selected>Seleccionar plantilla</option>
+    <option value="ej1">Plantilla Ejemplo 1</option>
+    <option value="ej2">Plantilla Ejemplo 2</option>
+    <option value="ej3">Plantilla Ejemplo 3</option>
+  </select>
+
+  <button type="submit" class="btn btn-primary">
+    {{ editandoIndice === null ? "Agregar" : "Actualizar" }}
+  </button>
+  <button
+    *ngIf="editandoIndice !== null"
+    type="button"
+    class="btn btn-warning"
+    (click)="editarContenidoArticulo()"
+  >
+    Editar contenido
+  </button>
+</form>
+
+<!-- Tabla -->
+<div class="tabla-publicaciones table-responsive">
+  <table class="table table-bordered table-hover align-middle text-center">
+    <thead class="table-light">
+      <tr>
+        <th>Título</th>
+        <th>Autor</th>
+        <th>Categoría</th>
+        <th>Tags</th>
+        <th>Creación</th>
+        <th>Modificación</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let pub of publicacionesFiltradas; let i = index">
+        <td>
+          <strong>{{ pub.titulo }}</strong>
+          <div class="text-muted" style="font-size: 0.85em">
+            {{ pub.contenido?.encabezado }}
+          </div>
+        </td>
+
+        <td>{{ pub.autor }}</td>
+        <td>
+          <span class="badge bg-info text-dark">{{ pub.categoria }}</span>
+        </td>
+        <td>
+          <span *ngFor="let tag of pub.tags" class="badge bg-secondary me-1">{{
+            tag
+          }}</span>
+        </td>
+        <td>{{ pub.creacion | date : "short" }}</td>
+        <td>{{ pub.modificacion | date : "short" }}</td>
+        <td>
+          <button
+            class="btn btn-outline-primary btn-sm me-1"
+            (click)="verVistaPrevia(pub)"
+            title="Ver"
+          >
+            <i class="bi bi-eye"></i>
+          </button>
+          <button
+            class="btn btn-outline-warning btn-sm me-1"
+            (click)="editarPublicacion(pub)"
+            title="Editar"
+          >
+            <i class="bi bi-pencil"></i>
+          </button>
+          <button
+            class="btn btn-outline-danger btn-sm"
+            (click)="eliminarPublicacion(pub)"
+            title="Eliminar"
+          >
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Editor de contenido -->
+<div class="modal-backdrop" *ngIf="mostrarEditorContenido">
+  <div class="modal-content-box">
+    <h5>
+      {{ editandoIndice === null ? "Nuevo Artículo" : nuevaPublicacion.titulo }}
+    </h5>
+
+    <div class="mb-3">
+      <label for="textoContenido" class="form-label">Contenido</label>
+      <textarea
+        id="textoContenido"
+        class="form-control"
+        rows="5"
+        [(ngModel)]="contenidoArticulo.texto"
+        name="texto"
+      ></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="imagenContenido" class="form-label">Imagen</label>
+      <input type="file" class="form-control" (change)="cargarImagen($event)" />
+    </div>
+
+    <div class="d-flex justify-content-end gap-2">
+      <button class="btn btn-secondary" (click)="cerrarEditorContenido()">
+        Cancelar
+      </button>
+      <button class="btn btn-success" (click)="guardarContenido()">
+        Guardar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Vista previa -->
+<div class="modal-backdrop" *ngIf="vistaPreviaContenido">
+  <div class="modal-content-box">
+    <h5>{{ vistaPreviaContenido.titulo }}</h5>
+    <p>
+      <strong>{{ vistaPreviaContenido.encabezado }}</strong>
+    </p>
+    <p>{{ vistaPreviaContenido.texto }}</p>
+    <img
+      *ngIf="vistaPreviaContenido.imagenUrl"
+      [src]="vistaPreviaContenido.imagenUrl"
+      class="img-fluid mt-2 rounded"
+    />
+    <div class="text-end mt-3">
+      <button class="btn btn-secondary" (click)="cerrarVistaPrevia()">
+        Cerrar
+      </button>
+    </div>
+  </div>
+</div>
